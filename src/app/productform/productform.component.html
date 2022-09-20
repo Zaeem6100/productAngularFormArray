@@ -1,0 +1,125 @@
+
+<div class="container-fluid py-5" >
+<form [formGroup]="ProductsForm" (ngSubmit)="onSubmit()" class="form-row d-flex flex-column justify-content-center" >
+
+  <div class="form-row">
+    <div class="col col-md-6">
+        <label for="name" >Product Name </label>
+        <input type="text" id="name" class="form-control" name="name" formControlName="name" ng-required="true">
+<!--      <p *ngIf="ProductsForm.get('name')?.touched && !ProductsForm.get('name')?.valid" class="alert alert-danger" >-->
+<!--        This is Required</p>-->
+      <p *ngIf="!ProductsForm.get('name')?.valid && saveValid == true " class="alert alert-danger" >
+        This is Required</p>
+    </div>
+    <div class="col col-md-6">
+      <label for="name" >Order No. </label>
+      <input type="text" id="orderNo" class="form-control" name="orderNo" formControlName="orderNo" ng-required="true">
+<!--      <p *ngIf="ProductsForm.get('orderNo')?.touched && !ProductsForm.get('orderNo')?.valid" class="alert alert-danger" >-->
+<!--        This is Required</p>-->
+      <p *ngIf="!ProductsForm.get('orderNo')?.valid && saveValid == true " class="alert alert-danger" >
+        This is Required</p>
+    </div>
+  </div>
+
+  <p class="px-5">
+    <button type="button"  class="m-2  btn btn-primary " (click)="addProducts()">Add New Products</button>
+  </p>
+ <div class="p-2">
+   <h2 class="text-danger">
+     Products:
+   </h2>
+ </div>
+
+  <div formArrayName="Products" class="form-group ">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Product Name </th>
+        <th scope="col">Product Price</th>
+        <th scope="col">Product Quantity</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let skill of Products.controls; let i=index" >
+      <tr [formGroupName]="i">
+        <th scope="row">{{i}}</th>
+        <td>
+          <input type="text" class="form-control" formControlName="ProductName">
+<!--          <p *ngIf="Products.controls[i].get('ProductName')?.errors?.['required']" class="alert alert-danger" >-->
+<!--            This is Required</p>-->
+          <p *ngIf="Products.controls[i].get('ProductName')?.value=='' && saveValid == true " class="alert alert-danger" >
+            This is Required</p>
+
+        </td>
+        <td>
+          <input type="number" class="form-control" min="0" formControlName="ProductPrice">
+<!--          <p *ngIf="Products.controls[i].get('ProductPrice')?.hasError('min')" class="text-danger"> *Minimum Price is $1</p>-->
+<!--          <p *ngIf="Products.controls[i].get('ProductPrice')?.errors?.['required']" class="alert alert-danger">-->
+<!--            This is Required</p>-->
+          <p *ngIf="Products.controls[i].get('ProductPrice')?.errors?.['min'] && saveValid == true" class="alert alert-danger">
+          *Minimum Price is $1</p>
+        </td>
+        <td>
+          <input type="number" class="form-control" min="0" formControlName="ProductQuantity" >
+<!--          <p *ngIf="Products.controls[i].get('ProductQuantity')?.hasError('min')" class="text-danger"> *Minimum Price is $1</p>-->
+          <p *ngIf="Products.controls[i].get('ProductQuantity')?.errors?.['min'] && saveValid == true" class="alert alert-danger">
+            *Minimum Price is $1</p>
+        </td>
+        
+        <td>
+          <button type="button" class="btn btn-danger" (click)="removeSkill(i)">Remove</button>
+      </tr>
+      </tbody>
+    </table>
+
+<!--    <div *ngFor="let skill of Products.controls; let i=index">-->
+<!--      <div [formGroupName]="i">-->
+<!--        -->
+<!--        skill name :-->
+<!--        <input type="text" formControlName="skill">-->
+<!--        exp:-->
+<!--        <input type="text" formControlName="exp">-->
+
+<!--        -->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+
+  <p>
+    <button type="submit" class="btn btn-primary">Save Data</button>
+  </p>
+
+</form>
+
+</div>
+
+
+
+<!--{{this.ProductsForm.value | json}}-->
+
+<div class="px-5">
+  <table class="table table-info table-bordered" id="productTable" >
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Price</th>
+      <th scope="col">Product Quantity</th>
+      <th scope="col">Total</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let product of getProducts(); let i=index;">
+    <tr>
+      <th scope="row">{{i}}</th>
+      <td>{{product["ProductName"]}}</td>
+      <td>{{product["ProductPrice"]}}</td>
+      <td>{{product["ProductQuantity"]}}</td>
+      <td>{{product["ProductPrice"] * product["ProductQuantity"]}}</td>
+
+    </tr>
+
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,27 @@
+<div class="container-fluid py-5" style="padding-left: 500px">
+  <form [formGroup]="customerform" (ngSubmit)="onSubmit(customerform.value)" class="">
+    <input type="text" formControlName="orderno" class="" id="oderno" placeholder="######">
+    <input type="text" formControlName="cname" class="" id="cname" placeholder="Zaeem">
+    <button class="btn btn-primary">Add Product</button>
+  </form>
+</div>
+
+
+<div [formGroup]="productfrom">
+  <div
+    formArrayName="items" *ngFor="let item of getControls(); let i = index;">
+    <div [formGroupName]="i">
+      <input type="text" formControlName="pName" class="" id="pName" placeholder="Product Name">
+      <input type="text" formControlName="pQuantity" class="" id="pQuantity" placeholder="Product Quantity">
+      <input type="text" formControlName="pPrice" class="" id="pPrice" placeholder="Product Price">
+      <input type="text" formControlName="total" class="" id="total" placeholder="00">
+    </div>
+  </div>
+</div>
+<button (click)="addProduct()">
+  Add New Product
+</button>
+
+
+
+
